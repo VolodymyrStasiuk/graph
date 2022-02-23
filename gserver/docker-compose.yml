@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27020:27017
+    volumes: 
+      - data:/data/db
+
+  graph:
+    build: /home/stas/graph/gserver
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3005:3005
+    volumes: 
+      - .:/usr/src/app
+    links:
+      - mongodb
+
+  app:
+    build: /home/stas/graph/application
+    ports:
+      - 3000:3000
+
+volumes: 
+  data: 
